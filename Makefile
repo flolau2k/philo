@@ -6,14 +6,15 @@
 #    By: flauer <flauer@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/12 11:17:07 by flauer            #+#    #+#              #
-#    Updated: 2023/07/21 14:38:30 by flauer           ###   ########.fr        #
+#    Updated: 2023/07/21 15:00:17 by flauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		philo
 
 CC =		cc
-CFLAGS =	-g -Wall -Wextra -Werror
+CFLAGS =	-g 
+#-Wall -Wextra -Werror
 
 INCLUDES =	-Iinclude
 

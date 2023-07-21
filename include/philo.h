@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauer <flauer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/21 14:51:16 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/21 17:04:34 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,21 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <stdbool.h>
+
+# define ARGS_FAIL "Received wrong count of Arguments"
+
+typedef struct s_philo
+{
+	int	num_p;
+	int	ttd;
+	int	tte;
+	int	tts;
+	int	eat_count;
+}	t_philo;
+
+// helpers.c
+ssize_t		ft_atoi(const char *str);
+void		ft_err(char *msg);
 
 #endif

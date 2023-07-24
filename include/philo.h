@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/21 17:04:34 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/24 11:39:12 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <stdbool.h>
 
 # define ARGS_FAIL "Received wrong count of Arguments"
+
+typedef struct timeval t_timeval;
 
 typedef struct s_philo
 {

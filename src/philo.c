@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/21 17:07:22 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/24 11:44:56 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,17 @@ bool	parse_args(int argc, char **argv, t_philo *philo)
 
 int	main(int argc, char **argv)
 {
-	t_philo	philo;
+	t_philo		philo;
+	t_timeval	time;
 
 	init_philo(&philo);
-	if (!parse_args(argc, argv, &philo));
+	if (!parse_args(argc, argv, &philo))
 		return (EXIT_FAILURE);
-	
+	while (1)
+	{
+		gettimeofday(&time, NULL);
+		printf("Timeval is sec: %li, usec: %i\n", time.tv_sec, time.tv_usec);
+		system("sleep 1");
+	}
+	return (0);
 }

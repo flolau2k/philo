@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: flauer <flauer@student.42.fr>              +#+  +:+       +#+         #
+#    By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/12 11:17:07 by flauer            #+#    #+#              #
-#    Updated: 2023/07/21 15:00:17 by flauer           ###   ########.fr        #
+#    Updated: 2023/07/24 11:43:01 by flauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJDIR =	obj
 SRCDIR =	src
 INCDIR =	include
 
-FILES =		philo.c
+FILES =		philo.c helpers.c
 HEADER_F =	philo.h
 
 SRC =		$(addprefix $(SRCDIR)/, $(FILES))

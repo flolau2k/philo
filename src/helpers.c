@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:08:33 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/21 16:58:27 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/24 11:44:01 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@ void	ft_err(char *msg)
 	printf("Error\n");
 	if (msg)
 		printf("%s\n", msg);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_isspace(const char c)
+{
+	if (c == 32 || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
 }
 
 /// @brief convert a string to an integer

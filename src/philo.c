@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/24 11:44:56 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/24 16:39:56 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_philo(t_philo *philo)
 	philo->tte = 0;
 	philo->tts = 0;
 	philo->eat_count = 0;
+	gettimeofday(&(philo->start), NULL);
 }
 
 bool	parse_args(int argc, char **argv, t_philo *philo)
@@ -34,19 +35,54 @@ bool	parse_args(int argc, char **argv, t_philo *philo)
 	return (true);
 }
 
+bool	init_mutexes(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->num_p);
+	if (!philo->forks)
+		return (false);
+	while (i < philo->num_p)
+	{
+		pthread_mutex_init(&(philo->forks[i]), NULL);
+		i++;
+	}
+	pthread_mutex_init(&philo->out, NULL);
+	return (true);
+}
+
+void	print_info(t_philo *philo, int id, char *msg)
+{
+	pthread_mutex_lock(&philo->out);
+	printf("[%li]	%i %s\n", get_timestamp(&philo->start), id, msg);
+	pthread_mutex_unlock(&philo->out);
+}
+
+void	ft_philo(t_philo *philo, int id)
+{
+	int	thinktime;
+
+	while (true)
+	{
+		print_info(philo, id, THINKING);
+		usleep(100);
+	}
+}
+
 int	main(int argc, char **argv)
 {
-	t_philo		philo;
-	t_timeval	time;
+	t_philo	philo;
+	int		i;
 
+	i = 0;
 	init_philo(&philo);
-	if (!parse_args(argc, argv, &philo))
+	if (!parse_args(argc, argv, &philo) || !init_mutexes(&philo))
 		return (EXIT_FAILURE);
-	while (1)
+	while (i < philo.num_p)
 	{
-		gettimeofday(&time, NULL);
-		printf("Timeval is sec: %li, usec: %i\n", time.tv_sec, time.tv_usec);
-		system("sleep 1");
+		pthread_create()
 	}
+
 	return (0);
 }

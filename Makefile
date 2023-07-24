@@ -6,7 +6,7 @@
 #    By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/12 11:17:07 by flauer            #+#    #+#              #
-#    Updated: 2023/07/24 11:43:01 by flauer           ###   ########.fr        #
+#    Updated: 2023/07/24 15:00:45 by flauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJDIR =	obj
 SRCDIR =	src
 INCDIR =	include
 
-FILES =		philo.c helpers.c
+FILES =		philo.c helpers.c time.c
 HEADER_F =	philo.h
 
 SRC =		$(addprefix $(SRCDIR)/, $(FILES))

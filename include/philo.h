@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/24 16:38:58 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/25 18:08:05 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdbool.h>
 
 # define ARGS_FAIL "Received wrong number of Arguments"
+# define MS_WAIT_BEFORE_START 100
 
 # define THINKING "is thinking"
 # define DIED "died"
@@ -31,17 +32,33 @@
 
 typedef struct timeval t_timeval;
 
-typedef struct s_philo
+struct s_philo
+{
+	int				id;
+	int				eat_count;
+	t_table			*table;
+	size_t			last_eat;
+	bool			dead;
+	pthread_mutex_t	*f1;
+	pthread_mutex_t	*f2;
+	pthread_t		thread;
+};
+
+typedef struct s_table
 {
 	int				num_p;
 	int				ttd;
 	int				tte;
 	int				tts;
-	int				eat_count;
+	int				num_eat;
+	size_t			pre_start_time;
 	t_timeval		start;
+	struct s_philo	*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	out;
-}	t_philo;
+}	t_table;
+
+typedef struct s_philo	t_philo;
 
 // helpers.c
 ssize_t		ft_atoi(const char *str);

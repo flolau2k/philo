@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/27 10:10:39 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/27 11:17:16 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define MS_WAIT_BEFORE_START 100
 
 # define THINKING "is thinking"
-# define DIED "died"
+# define DIED "\033[0;31mdied\033[0m"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
 # define TAKE_FORK "taken a fork"

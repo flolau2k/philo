@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/27 10:39:35 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/27 11:37:07 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ bool	check_dead(t_philo *philo)
 	{
 		print_info(philo, DIED);
 		philo->dead = true;
+		// TODO: Unlock forks held!
 		return (true);
 	}
 	return (false);

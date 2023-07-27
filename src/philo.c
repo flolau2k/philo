@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:31:36 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/27 10:39:35 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,15 @@ void	create_philo(t_philo *philo, int id, t_table *table)
 	philo->table = table;
 	philo->last_eat = 0;
 	philo->dead = false;
-	// if (id == table->num_p - 1)
-	// {
-	// 	philo->f1 = &table->forks[0];
-	// 	philo->f2 = &table->forks[id];
-	// }
-	if (id % 2 == 0)
+	if (id == table->num_p - 1)
 	{
-		if (id == table->num_p - 1)
-			philo->f1 = &table->forks[0];
-		else
-			philo->f1 = &table->forks[id + 1];
+		philo->f1 = &table->forks[0];
 		philo->f2 = &table->forks[id];
 	}
 	else
 	{
 		philo->f1 = &table->forks[id];
-		if (id == table->num_p - 1)
-			philo->f2 = &table->forks[0];
-		else
-			philo->f2 = &table->forks[id + 1];
+		philo->f2 = &table->forks[id + 1];
 	}
 }
 
@@ -74,7 +63,7 @@ bool	init_mutexes(t_table *table)
 
 	i = 0;
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->num_p);
-	//TODO: make sure to free properly in case of error!
+	 //TODO: make sure to free properly in case of error!
 	if (!table->forks)
 		return (false);
 	table->philos = malloc(sizeof(t_philo *) * table->num_p);

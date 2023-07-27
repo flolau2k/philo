@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/27 10:24:10 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/27 10:39:35 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	create_philo(t_philo *philo, int id, t_table *table)
 	philo->dead = false;
 	if (id == table->num_p - 1)
 	{
-		philo->f1 = &table->forks[id];
-		philo->f2 = &table->forks[0];
+		philo->f1 = &table->forks[0];
+		philo->f2 = &table->forks[id];
 	}
 	else
 	{
@@ -97,6 +97,7 @@ void	eat(t_philo *philo)
 	print_info(philo, TAKE_FORK);
 	print_info(philo, EATING);
 	philo->last_eat = get_timestamp(&philo->table->start, philo->table->pst);
+	philo->eat_count += 1;
 	usleep(philo->table->tte * 1000);
 	pthread_mutex_unlock(philo->f1);
 	pthread_mutex_unlock(philo->f2);
@@ -114,7 +115,7 @@ void	*ft_philo(void *param)
 
 	philo = (t_philo *)param;
 	while (get_timestamp(&philo->table->start, philo->table->pst) < 0)
-		usleep(100);
+		usleep(1000);
 	while (true)
 	{
 		print_info(philo, THINKING);
@@ -122,42 +123,50 @@ void	*ft_philo(void *param)
 		philosleep(philo);
 		if (philo->dead)
 			return (NULL);
+		if (philo->table->num_eat && philo->eat_count >= philo->table->num_eat)
+		{
+			print_info(philo, "left the table");
+			philo->dead = true;
+			return (NULL);
+		}
 	}
 }
 
-void	check_dead(t_philo *philo)
+bool	check_dead(t_philo *philo)
 {
 	ssize_t	curr_time;
 
 	curr_time = get_timestamp(&philo->table->start, philo->table->pst);
-	// printf("checking philo %i, curr time: %li, philo last eat: %li, time to die: %i...\n", philo->id, curr_time, philo->last_eat, philo->table->ttd);
-	// bool dead = curr_time - philo->last_eat > philo->table->ttd;
-	// printf("checking philo %i, philo time since eat %li, ttd: %i, dead: %i\n", philo->id, curr_time - philo->last_eat, philo->table->ttd, dead);
-	if (philo->dead)
-		return ;
 	if ((curr_time - philo->last_eat) > philo->table->ttd)
 	{
 		print_info(philo, DIED);
 		philo->dead = true;
+		return (true);
 	}
+	return (false);
 }
 
 void	*waiter(void *param)
 {
 	t_table	*table;
 	int		i;
+	int		dead_count;
 
 	table = (t_table *)param;
-	while (true)
+	dead_count = 0;
+	while (dead_count < table->num_p)
 	{
+		dead_count = 0;
 		i = 0;
 		while (i < table->num_p)
 		{
-			check_dead(&table->philos[i]);
+			if (table->philos[i].dead || check_dead(&table->philos[i]))
+				dead_count += 1;
 			i++;
 		}
-		usleep(10000);
+		usleep(1000);
 	}
+	return (NULL);
 }
 
 int	main(int argc, char **argv)

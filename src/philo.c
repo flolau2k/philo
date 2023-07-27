@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/25 18:06:04 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/27 10:24:10 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_table(t_table *table)
 	table->tts = 0;
 	table->num_eat = 0;
 	gettimeofday(&(table->start), NULL);
-	table->pre_start_time = MS_WAIT_BEFORE_START;
+	table->pst = MS_WAIT_BEFORE_START;
 	table->philos = NULL;
 	table->forks = NULL;
 }
@@ -47,8 +47,8 @@ void	create_philo(t_philo *philo, int id, t_table *table)
 	philo->dead = false;
 	if (id == table->num_p - 1)
 	{
-		philo->f2 = &table->forks[0];
 		philo->f1 = &table->forks[id];
+		philo->f2 = &table->forks[0];
 	}
 	else
 	{
@@ -85,7 +85,7 @@ void	print_info(t_philo *philo, char *msg)
 		return ;
 	pthread_mutex_lock(&philo->table->out);
 	printf("[%li]	%i %s\n",
-		get_timestamp(&philo->table->pre_start_time), philo->id, msg);
+		get_timestamp(&philo->table->start, philo->table->pst), philo->id, msg);
 	pthread_mutex_unlock(&philo->table->out);
 }
 
@@ -96,13 +96,13 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(philo->f2);
 	print_info(philo, TAKE_FORK);
 	print_info(philo, EATING);
-	philo->last_eat = get_timestamp(&philo->table->start);
+	philo->last_eat = get_timestamp(&philo->table->start, philo->table->pst);
 	usleep(philo->table->tte * 1000);
 	pthread_mutex_unlock(philo->f1);
 	pthread_mutex_unlock(philo->f2);
 }
 
-void	sleep(t_philo *philo)
+void	philosleep(t_philo *philo)
 {
 	print_info(philo, SLEEPING);
 	usleep(philo->table->tts * 1000);
@@ -113,13 +113,13 @@ void	*ft_philo(void *param)
 	t_philo	*philo;
 
 	philo = (t_philo *)param;
-	while (get_timestamp(&philo->table->start) < 0)
+	while (get_timestamp(&philo->table->start, philo->table->pst) < 0)
 		usleep(100);
 	while (true)
 	{
 		print_info(philo, THINKING);
 		eat(philo);
-		sleep(philo);
+		philosleep(philo);
 		if (philo->dead)
 			return (NULL);
 	}
@@ -127,11 +127,19 @@ void	*ft_philo(void *param)
 
 void	check_dead(t_philo *philo)
 {
-	size_t	curr_time;
+	ssize_t	curr_time;
 
-	curr_time = get_timestamp(&philo->table->start);
-	if (curr_time - philo->last_eat > philo->table->ttd)
+	curr_time = get_timestamp(&philo->table->start, philo->table->pst);
+	// printf("checking philo %i, curr time: %li, philo last eat: %li, time to die: %i...\n", philo->id, curr_time, philo->last_eat, philo->table->ttd);
+	// bool dead = curr_time - philo->last_eat > philo->table->ttd;
+	// printf("checking philo %i, philo time since eat %li, ttd: %i, dead: %i\n", philo->id, curr_time - philo->last_eat, philo->table->ttd, dead);
+	if (philo->dead)
+		return ;
+	if ((curr_time - philo->last_eat) > philo->table->ttd)
+	{
+		print_info(philo, DIED);
 		philo->dead = true;
+	}
 }
 
 void	*waiter(void *param)
@@ -148,6 +156,7 @@ void	*waiter(void *param)
 			check_dead(&table->philos[i]);
 			i++;
 		}
+		usleep(10000);
 	}
 }
 
@@ -168,5 +177,9 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	pthread_create(&thread, NULL, &waiter, &table);
+	i = -1;
+	while (i++ < table.num_p)
+		pthread_join(table.philos[i].thread, NULL);
+	pthread_join(thread, NULL);
 	return (0);
 }

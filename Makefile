@@ -6,15 +6,14 @@
 #    By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/12 11:17:07 by flauer            #+#    #+#              #
-#    Updated: 2023/07/24 15:00:45 by flauer           ###   ########.fr        #
+#    Updated: 2023/07/27 10:09:00 by flauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		philo
 
 CC =		cc
-CFLAGS =	-g 
-#-Wall -Wextra -Werror
+CFLAGS =	-g -Wall -Wextra -Werror
 
 INCLUDES =	-Iinclude
 
@@ -42,11 +41,9 @@ $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
 clean:
-	make -C libft clean
 	/bin/rm -rf $(OBJDIR)
 
 fclean: clean
-	make -C libft fclean
 	/bin/rm -rf $(NAME)
 
 re:	fclean all

@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/25 18:08:05 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/27 10:10:39 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,39 +32,40 @@
 
 typedef struct timeval t_timeval;
 
+typedef struct s_philo t_philo;
+typedef struct s_table t_table;
+
 struct s_philo
 {
 	int				id;
 	int				eat_count;
 	t_table			*table;
-	size_t			last_eat;
+	ssize_t			last_eat;
 	bool			dead;
 	pthread_mutex_t	*f1;
 	pthread_mutex_t	*f2;
 	pthread_t		thread;
 };
 
-typedef struct s_table
+struct s_table
 {
 	int				num_p;
 	int				ttd;
 	int				tte;
 	int				tts;
 	int				num_eat;
-	size_t			pre_start_time;
+	ssize_t			pst;
 	t_timeval		start;
-	struct s_philo	*philos;
+	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	out;
-}	t_table;
-
-typedef struct s_philo	t_philo;
+};
 
 // helpers.c
 ssize_t		ft_atoi(const char *str);
 void		ft_err(char *msg);
 
 // time.c
-size_t		get_timestamp(t_timeval *start);
+ssize_t		get_timestamp(t_timeval *start, size_t pst);
 
 #endif

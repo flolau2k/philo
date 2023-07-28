@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 14:20:21 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 15:17:35 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_table(t_table *table)
 	table->num_eat = 0;
 	table->stop = false;
 	pthread_mutex_init(&table->m_stop, NULL);
-	gettimeofday(&(table->start), NULL);
+	gettimeofday(&(table->tzero), NULL);
 	table->pst = MS_WAIT_BEFORE_START;
 	table->philos = NULL;
 	table->forks = NULL;
@@ -46,8 +46,6 @@ void	create_philo(t_philo *philo, int id, t_table *table)
 	philo->eat_count = 0;
 	philo->table = table;
 	philo->last_eat = 0;
-	philo->dead = false;
-	pthread_mutex_init(&philo->m_dead, NULL);
 	if (id % 2 == 0)
 	{
 		if (id == table->num_p - 1)

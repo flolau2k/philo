@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 14:25:58 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 15:23:15 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,21 @@
 
 typedef struct timeval t_timeval;
 
+typedef struct s_mutex
+{
+	ssize_t			val;
+	pthread_mutex_t	mutex;
+}	t_mutex;
+
 typedef struct s_philo t_philo;
 typedef struct s_table t_table;
 
 struct s_philo
 {
 	int				id;
-	int				eat_count;
 	t_table			*table;
-	ssize_t			last_eat;
-	bool			dead;
-	pthread_mutex_t	m_dead;
+	t_mutex			eat_count;
+	t_mutex			last_eat;
 	pthread_mutex_t	*f1;
 	pthread_mutex_t	*f2;
 	pthread_t		thread;
@@ -55,10 +59,9 @@ struct s_table
 	int				tte;
 	int				tts;
 	int				num_eat;
-	bool			stop;
-	pthread_mutex_t	m_stop;
+	t_mutex			stop;
 	ssize_t			pst;
-	t_timeval		start;
+	t_timeval		tzero;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	out;
@@ -74,22 +77,26 @@ void		create_philo(t_philo *philo, int id, t_table *table);
 bool		init_mutexes(t_table *table);
 
 // waiter.c
-bool	check_dead(t_philo *philo);
-void	set_all_philos_dead(t_table *table);
-void	*waiter(void *param);
+bool		check_dead(t_philo *philo);
+void		set_all_philos_dead(t_table *table);
+void		*waiter(void *param);
 
 //philo.c
-void	*ft_philo(void *param);
-void	philosleep(t_philo *philo);
-void	eat(t_philo *philo);
-void	single_fork(t_philo *philo);
+void		*ft_philo(void *param);
+void		philosleep(t_philo *philo);
+void		eat(t_philo *philo);
+void		single_fork(t_philo *philo);
 
 // helpers.c
 ssize_t		ft_atoi(const char *str);
 void		ft_err(char *msg);
 void		print_info(t_philo *philo, char *msg);
 
+// mutexes.c
+ssize_t		get_mutex(t_mutex *m);
+void	set_mutex(t_mutex *m, ssize_t newval);
+
 // time.c
-ssize_t		get_timestamp(t_timeval *start, size_t pst);
+ssize_t		get_timestamp(t_timeval *tzero, size_t pst);
 
 #endif

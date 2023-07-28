@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   mutexes.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 14:47:23 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 15:17:35 by flauer           ###   ########.fr       */
+/*   Created: 2023/07/28 15:08:32 by flauer            #+#    #+#             */
+/*   Updated: 2023/07/28 15:12:04 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static size_t	get_milliseconds(t_timeval *val)
+ssize_t		get_mutex(t_mutex *m)
 {
-	size_t	ret;
+	ssize_t	ret;
 
-	ret = val->tv_sec * (1000000) + val->tv_usec;
-	ret /= 1000;
+	ret = 0;
+	pthread_mutex_lock(&m->mutex);
+	ret = m->val;
+	pthread_mutex_unlock(&m->mutex);
 	return (ret);
 }
 
-ssize_t	get_timestamp(t_timeval *tzero, size_t pst)
+void	set_mutex(t_mutex *m, ssize_t newval)
 {
-	t_timeval	curr_time;
-	ssize_t		ret;
-
-	gettimeofday(&curr_time, NULL);
-	ret = get_milliseconds(&curr_time) - get_milliseconds(tzero);
-	return (ret - pst);
+	pthread_mutex_lock(&m->mutex);
+	m->val = newval;
+	pthread_mutex_unlock(&m->mutex);
 }

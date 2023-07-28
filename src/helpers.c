@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:08:33 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 14:23:08 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 15:17:35 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_info(t_philo *philo, char *msg)
 	pthread_mutex_unlock(&philo->m_dead);
 	pthread_mutex_lock(&philo->table->out);
 	printf("%li %i %s\n",
-		get_timestamp(&philo->table->start, philo->table->pst), philo->id, msg);
+		get_timestamp(&philo->table->tzero, philo->table->pst), philo->id, msg);
 	pthread_mutex_unlock(&philo->table->out);
 }
 

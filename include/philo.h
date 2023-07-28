@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 11:42:43 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 14:25:58 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ struct s_philo
 	t_table			*table;
 	ssize_t			last_eat;
 	bool			dead;
-	pthread_mutex_t	dead_m;
+	pthread_mutex_t	m_dead;
 	pthread_mutex_t	*f1;
 	pthread_mutex_t	*f2;
 	pthread_t		thread;
@@ -55,6 +55,8 @@ struct s_table
 	int				tte;
 	int				tts;
 	int				num_eat;
+	bool			stop;
+	pthread_mutex_t	m_stop;
 	ssize_t			pst;
 	t_timeval		start;
 	t_philo			*philos;
@@ -62,9 +64,30 @@ struct s_table
 	pthread_mutex_t	out;
 };
 
+// main.c
+int			main(int argc, char **argv);
+
+// init.c
+void		init_table(t_table *table);
+bool		parse_args(int argc, char **argv, t_table *table);
+void		create_philo(t_philo *philo, int id, t_table *table);
+bool		init_mutexes(t_table *table);
+
+// waiter.c
+bool	check_dead(t_philo *philo);
+void	set_all_philos_dead(t_table *table);
+void	*waiter(void *param);
+
+//philo.c
+void	*ft_philo(void *param);
+void	philosleep(t_philo *philo);
+void	eat(t_philo *philo);
+void	single_fork(t_philo *philo);
+
 // helpers.c
 ssize_t		ft_atoi(const char *str);
 void		ft_err(char *msg);
+void		print_info(t_philo *philo, char *msg);
 
 // time.c
 ssize_t		get_timestamp(t_timeval *start, size_t pst);

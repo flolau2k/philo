@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 15:41:15 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 16:05:23 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,15 @@ void	create_philo(t_philo *philo, int id, t_table *table)
 	philo->table = table;
 	init_mutex(&philo->eat_count);
 	init_mutex(&philo->last_eat);
-	if (id % 2 == 0)
+	if (id == table->num_p - 1)
 	{
-		if (id == table->num_p - 1)
-			philo->f1 = &table->forks[0];
-		else
-			philo->f1 = &table->forks[id + 1];
+		philo->f1 = &table->forks[0];
 		philo->f2 = &table->forks[id];
 	}
 	else
 	{
 		philo->f1 = &table->forks[id];
-		if (id == table->num_p - 1)
-			philo->f2 = &table->forks[0];
-		else
-			philo->f2 = &table->forks[id + 1];
+		philo->f2 = &table->forks[id + 1];
 	}
 }
 

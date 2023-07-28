@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 15:59:31 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 16:10:39 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	*ft_philo(void *param)
 	while (true)
 	{
 		print_info(philo, THINKING);
+		usleep(10);
 		eat(philo);
 		philosleep(philo);
 		if (get_mutex(&philo->table->stop))

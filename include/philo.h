@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:17:16 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 11:42:43 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define DIED "\033[0;31mdied\033[0m"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
-# define TAKE_FORK "taken a fork"
+# define TAKE_FORK "has taken a fork"
 
 typedef struct timeval t_timeval;
 
@@ -42,6 +42,7 @@ struct s_philo
 	t_table			*table;
 	ssize_t			last_eat;
 	bool			dead;
+	pthread_mutex_t	dead_m;
 	pthread_mutex_t	*f1;
 	pthread_mutex_t	*f2;
 	pthread_t		thread;

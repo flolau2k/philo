@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/27 13:42:40 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 13:44:09 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,7 @@ void	create_philo(t_philo *philo, int id, t_table *table)
 	philo->table = table;
 	philo->last_eat = 0;
 	philo->dead = false;
-	// if (id == table->num_p - 1)
-	// {
-	// 	philo->f1 = &table->forks[0];
-	// 	philo->f2 = &table->forks[id];
-	// }
+	pthread_mutex_init(&philo->dead_m, NULL);
 	if (id % 2 == 0)
 	{
 		if (id == table->num_p - 1)
@@ -92,12 +88,31 @@ bool	init_mutexes(t_table *table)
 
 void	print_info(t_philo *philo, char *msg)
 {
+	pthread_mutex_lock(&philo->dead_m);
 	if (philo->dead)
+	{
+		pthread_mutex_unlock(&philo->dead_m);
 		return ;
+	}
+	pthread_mutex_unlock(&philo->dead_m);
 	pthread_mutex_lock(&philo->table->out);
-	printf("[%li]	%i %s\n",
+	printf("%li %i %s\n",
 		get_timestamp(&philo->table->start, philo->table->pst), philo->id, msg);
 	pthread_mutex_unlock(&philo->table->out);
+}
+
+void	wait_for_dead(t_philo *philo)
+{
+	while (true)
+	{
+		pthread_mutex_lock(&philo->dead_m);
+		if (philo->dead)
+			break;
+		pthread_mutex_unlock(&philo->dead_m);
+		usleep(1000);
+	}
+	pthread_mutex_unlock(&philo->dead_m);
+	return ;
 }
 
 void	eat(t_philo *philo)
@@ -109,6 +124,8 @@ void	eat(t_philo *philo)
 		return ;
 	}
 	print_info(philo, TAKE_FORK);
+	if (philo->f1 == philo->f2)
+		return (wait_for_dead(philo));
 	pthread_mutex_lock(philo->f2);
 	if (philo->dead)
 	{
@@ -137,20 +154,22 @@ void	*ft_philo(void *param)
 
 	philo = (t_philo *)param;
 	while (get_timestamp(&philo->table->start, philo->table->pst) < 0)
-		usleep(1000);
+		usleep(100);
 	while (true)
 	{
 		print_info(philo, THINKING);
 		eat(philo);
 		philosleep(philo);
+		pthread_mutex_lock(&philo->dead_m);
 		if (philo->dead)
-			return (NULL);
+			return (pthread_mutex_unlock(&philo->dead_m), NULL);
 		if (philo->table->num_eat && philo->eat_count >= philo->table->num_eat)
 		{
 			print_info(philo, "left the table");
 			philo->dead = true;
-			return (NULL);
+			return (pthread_mutex_unlock(&philo->dead_m), NULL);
 		}
+		pthread_mutex_unlock(&philo->dead_m);
 	}
 }
 
@@ -159,34 +178,54 @@ bool	check_dead(t_philo *philo)
 	ssize_t	curr_time;
 
 	curr_time = get_timestamp(&philo->table->start, philo->table->pst);
+	// printf("time since last eat is %li, ttd is %i\n", (curr_time - philo->last_eat), philo->table->ttd);
 	if ((curr_time - philo->last_eat) > philo->table->ttd)
 	{
 		print_info(philo, DIED);
+		pthread_mutex_lock(&philo->dead_m);
 		philo->dead = true;
-		// TODO: Unlock forks held!
+		pthread_mutex_unlock(&philo->dead_m);
 		return (true);
 	}
 	return (false);
+}
+
+void	set_all_philos_dead(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->num_p)
+	{
+		pthread_mutex_lock(&table->philos[i].dead_m);
+		table->philos[i].dead = true;
+		pthread_mutex_unlock(&table->philos[i].dead_m);
+		i++;
+	}
 }
 
 void	*waiter(void *param)
 {
 	t_table	*table;
 	int		i;
-	int		dead_count;
+	bool	one_dead;
 
 	table = (t_table *)param;
-	dead_count = 0;
-	while (dead_count < table->num_p)
+	one_dead = false;
+	while (!one_dead)
 	{
-		dead_count = 0;
 		i = 0;
 		while (i < table->num_p)
 		{
 			if (table->philos[i].dead || check_dead(&table->philos[i]))
-				dead_count += 1;
+			{
+				one_dead = true;
+				break;
+			}
 			i++;
 		}
+		if (one_dead)
+			set_all_philos_dead(table);
 		usleep(1000);
 	}
 	return (NULL);

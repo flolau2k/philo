@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 16:10:39 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 17:18:20 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,54 @@ void	single_fork(t_philo *philo)
 	return ;
 }
 
+void	grab_forks(t_philo *philo)
+{
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->l_fork);
+		print_info(philo, TAKE_FORK);
+		pthread_mutex_lock(philo->r_fork);
+		print_info(philo, TAKE_FORK);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->r_fork);
+		print_info(philo, TAKE_FORK);
+		pthread_mutex_lock(philo->l_fork);
+		print_info(philo, TAKE_FORK);
+	}
+}
+
 void	eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->f1);
-	if (get_mutex(&philo->table->stop))
-	{
-		pthread_mutex_unlock(philo->f1);
-		return ;
-	}
-	print_info(philo, TAKE_FORK);
-	if (philo->f1 == philo->f2)
-		return (single_fork(philo));
-	pthread_mutex_lock(philo->f2);
-	if (get_mutex(&philo->table->stop))
-	{
-		pthread_mutex_unlock(philo->f1);
-		pthread_mutex_unlock(philo->f2);
-		return ;
-	}
-	print_info(philo, TAKE_FORK);
+	grab_forks(philo);
 	print_info(philo, EATING);
 	set_mutex(&philo->last_eat, \
 		get_timestamp(&philo->table->tzero, philo->table->pst));
 	increment_mutex(&philo->eat_count);
 	usleep(philo->table->tte * 1000);
-	pthread_mutex_unlock(philo->f1);
-	pthread_mutex_unlock(philo->f2);
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
 }
 
 void	philosleep(t_philo *philo)
 {
 	print_info(philo, SLEEPING);
 	usleep(philo->table->tts * 1000);
+}
+
+ssize_t	get_thinktime(t_philo *philo)
+{
+	ssize_t	time_since_last_eat;
+	ssize_t	time_to_spare;
+	ssize_t	curr_time;
+
+	time_since_last_eat = curr_time - get_mutex(&philo->last_eat); //time since last eat
+	time_to_spare = philo->table->ttd - philo->table->tte - philo->table->tts;
+	curr_time = get_timestamp(&philo->table->tzero, philo->table->pst);
+	if (time_since_last_eat <= philo->table->tts + philo->table->tte + 10)
+		return ((philo->table->ttd - philo->table->tts - philo->table->tte) / 8);
+	return (0);
 }
 
 void	*ft_philo(void *param)
@@ -67,7 +83,7 @@ void	*ft_philo(void *param)
 	while (true)
 	{
 		print_info(philo, THINKING);
-		usleep(10);
+		usleep(get_thinktime(philo) * 1000);
 		eat(philo);
 		philosleep(philo);
 		if (get_mutex(&philo->table->stop))

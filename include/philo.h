@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 15:49:49 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 16:34:38 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ struct s_philo
 	t_table			*table;
 	t_mutex			eat_count;
 	t_mutex			last_eat;
-	pthread_mutex_t	*f1;
-	pthread_mutex_t	*f2;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
 	pthread_t		thread;
 };
 
@@ -86,6 +86,7 @@ void		*ft_philo(void *param);
 void		philosleep(t_philo *philo);
 void		eat(t_philo *philo);
 void		single_fork(t_philo *philo);
+void		grab_forks(t_philo *philo);
 
 // helpers.c
 ssize_t		ft_atoi(const char *str);

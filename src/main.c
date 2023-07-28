@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:21:27 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 14:21:46 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 15:39:42 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 
 	i = 0;
 	init_table(&table);
-	if (!parse_args(argc, argv, &table) || !init_mutexes(&table))
+	if (!parse_args(argc, argv, &table) || !init_philos(&table))
 		return (EXIT_FAILURE);
 	while (i < table.num_p)
 	{

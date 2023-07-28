@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 15:17:35 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 15:41:15 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	init_table(t_table *table)
 	table->tte = 0;
 	table->tts = 0;
 	table->num_eat = 0;
-	table->stop = false;
-	pthread_mutex_init(&table->m_stop, NULL);
+	init_mutex(&table->stop);
 	gettimeofday(&(table->tzero), NULL);
 	table->pst = MS_WAIT_BEFORE_START;
 	table->philos = NULL;
@@ -43,9 +42,9 @@ bool	parse_args(int argc, char **argv, t_table *table)
 void	create_philo(t_philo *philo, int id, t_table *table)
 {
 	philo->id = id;
-	philo->eat_count = 0;
 	philo->table = table;
-	philo->last_eat = 0;
+	init_mutex(&philo->eat_count);
+	init_mutex(&philo->last_eat);
 	if (id % 2 == 0)
 	{
 		if (id == table->num_p - 1)
@@ -64,7 +63,7 @@ void	create_philo(t_philo *philo, int id, t_table *table)
 	}
 }
 
-bool	init_mutexes(t_table *table)
+bool	init_philos(t_table *table)
 {
 	int	i;
 
@@ -73,7 +72,7 @@ bool	init_mutexes(t_table *table)
 	//TODO: make sure to free properly in case of error!
 	if (!table->forks)
 		return (false);
-	table->philos = malloc(sizeof(t_philo *) * table->num_p);
+	table->philos = malloc(sizeof(t_philo) * table->num_p);
 	if (!table->philos)
 		return (false);
 	while (i < table->num_p)

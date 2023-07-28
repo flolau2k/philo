@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:24:13 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 15:30:44 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 15:59:10 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ bool	check_enough_eaten(t_table *table)
 	j = 0;
 	while (i < table->num_p)
 	{
-		if (get_mutex(&table->philos[i].eat_count) >= table->num_eat)
+		if (table->num_eat > 0 && \
+			get_mutex(&table->philos[i].eat_count) >= table->num_eat)
 			j++;
 		i++;
 	}

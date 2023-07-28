@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 15:23:15 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/28 15:49:49 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int			main(int argc, char **argv);
 void		init_table(t_table *table);
 bool		parse_args(int argc, char **argv, t_table *table);
 void		create_philo(t_philo *philo, int id, t_table *table);
-bool		init_mutexes(t_table *table);
+bool		init_philos(t_table *table);
 
 // waiter.c
 bool		check_dead(t_philo *philo);
@@ -93,8 +93,11 @@ void		ft_err(char *msg);
 void		print_info(t_philo *philo, char *msg);
 
 // mutexes.c
+void		init_mutex(t_mutex *m);
+void		destroy_mutex(t_mutex *m);
 ssize_t		get_mutex(t_mutex *m);
-void	set_mutex(t_mutex *m, ssize_t newval);
+void		set_mutex(t_mutex *m, ssize_t newval);
+ssize_t		increment_mutex(t_mutex *m);
 
 // time.c
 ssize_t		get_timestamp(t_timeval *tzero, size_t pst);

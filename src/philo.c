@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 08:32:23 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 10:33:00 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,10 @@ void	eat(t_philo *philo)
 	print_info(philo, EATING);
 	set_mutex(&philo->last_eat, \
 		get_timestamp(&philo->table->tzero, philo->table->pst));
-	usleep(philo->table->tte * 1000);
+	philosleep(philo, philo->table->tte);
 	increment_mutex(&philo->eat_count);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
-}
-
-void	philosleep(t_philo *philo)
-{
-	print_info(philo, SLEEPING);
-	usleep(philo->table->tts * 1000);
-}
-
-ssize_t	get_thinktime(t_philo *philo)
-{
-	ssize_t	time_since_last_eat;
-	ssize_t	time_to_spare;
-	ssize_t	curr_time;
-
-	curr_time = get_timestamp(&philo->table->tzero, philo->table->pst);
-	time_since_last_eat = curr_time - get_mutex(&philo->last_eat);
-	time_to_spare = philo->table->ttd - philo->table->tte - philo->table->tts;
-	if (time_since_last_eat <= philo->table->tts + philo->table->tte + 10)
-		return (time_to_spare / 32);
-	return (0);
 }
 
 void	*ft_philo(void *param)
@@ -85,9 +65,8 @@ void	*ft_philo(void *param)
 	while (true)
 	{
 		print_info(philo, THINKING);
-		usleep(get_thinktime(philo) * 1000);
 		eat(philo);
-		philosleep(philo);
+		philosleep(philo, philo->table->tts);
 		if (get_mutex(&philo->table->stop))
 			return (NULL);
 	}

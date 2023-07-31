@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 16:34:38 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 10:23:15 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void		*waiter(void *param);
 
 //philo.c
 void		*ft_philo(void *param);
-void		philosleep(t_philo *philo);
 void		eat(t_philo *philo);
 void		single_fork(t_philo *philo);
 void		grab_forks(t_philo *philo);
@@ -102,5 +101,6 @@ ssize_t		increment_mutex(t_mutex *m);
 
 // time.c
 ssize_t		get_timestamp(t_timeval *tzero, size_t pst);
+void		philosleep(t_philo *philo, ssize_t wait_for);
 
 #endif

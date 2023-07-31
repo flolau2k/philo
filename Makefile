@@ -6,7 +6,7 @@
 #    By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/12 11:17:07 by flauer            #+#    #+#              #
-#    Updated: 2023/07/28 15:52:22 by flauer           ###   ########.fr        #
+#    Updated: 2023/07/31 13:22:14 by flauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,9 @@ CC =		cc
 CFLAGS =	-g -Wall -Wextra -Werror
 
 INCLUDES =	-Iinclude
+ifeq ($(shell uname), Linux)
+	INCLUDES += -pthread
+endif
 
 OBJDIR =	obj
 SRCDIR =	src
@@ -31,7 +34,7 @@ HEADERS =	$(addprefix $(INCDIR)/, $(HEADER_F))
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
 	@echo "built $(NAME)"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(OBJDIR)

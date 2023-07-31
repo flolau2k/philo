@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:24:13 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 12:57:05 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 13:10:36 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ bool	check_dead(t_philo *philo)
 bool	check_enough_eaten(t_table *table)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	if (table->num_eat == 0)
 		return (false);
 	while (i < table->num_p)

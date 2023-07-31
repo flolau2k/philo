@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 16:51:10 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 21:35:44 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,8 @@ ssize_t		increment_mutex(t_mutex *m);
 ssize_t		get_timestamp(t_table *table);
 size_t		get_milliseconds();
 void		philosleep(t_table *table, ssize_t wait_for);
+
+// cleanup.c
+void		free_table(t_table *table);
 
 #endif

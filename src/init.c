@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 16:51:05 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 21:45:50 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,23 @@ void	init_table(t_table *table)
 	table->tzero = 0;
 	table->philos = NULL;
 	table->forks = NULL;
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+bool	read_input(char *val, int *ret, int low, int high)
+{
+	if (ft_strlen(val) == 0)
+		return (false);
+	
 }
 
 bool	parse_args(int argc, char **argv, t_table *table)

@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 17:18:20 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 08:32:23 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void	single_fork(t_philo *philo)
 
 void	grab_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+	if (philo->l_fork == philo->r_fork)
+		single_fork(philo);
+	else if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->l_fork);
 		print_info(philo, TAKE_FORK);
@@ -47,8 +49,8 @@ void	eat(t_philo *philo)
 	print_info(philo, EATING);
 	set_mutex(&philo->last_eat, \
 		get_timestamp(&philo->table->tzero, philo->table->pst));
-	increment_mutex(&philo->eat_count);
 	usleep(philo->table->tte * 1000);
+	increment_mutex(&philo->eat_count);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 }
@@ -65,11 +67,11 @@ ssize_t	get_thinktime(t_philo *philo)
 	ssize_t	time_to_spare;
 	ssize_t	curr_time;
 
-	time_since_last_eat = curr_time - get_mutex(&philo->last_eat); //time since last eat
-	time_to_spare = philo->table->ttd - philo->table->tte - philo->table->tts;
 	curr_time = get_timestamp(&philo->table->tzero, philo->table->pst);
+	time_since_last_eat = curr_time - get_mutex(&philo->last_eat);
+	time_to_spare = philo->table->ttd - philo->table->tte - philo->table->tts;
 	if (time_since_last_eat <= philo->table->tts + philo->table->tte + 10)
-		return ((philo->table->ttd - philo->table->tts - philo->table->tte) / 8);
+		return (time_to_spare / 32);
 	return (0);
 }
 

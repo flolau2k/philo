@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 13:00:21 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 15:51:32 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,18 @@ void	eat(t_philo *philo)
 void	*ft_philo(void *param)
 {
 	t_philo	*philo;
+	bool	first;
 
 	philo = (t_philo *)param;
-	while (get_timestamp(philo->table) < 0)
-		usleep(10);
+	first = true;
 	while (true)
 	{
 		print_info(philo, THINKING);
+		if (first && philo->id % 2 != 0)
+		{
+			first = false;
+			philosleep(philo->table, philo->table->tte / 2);
+		}
 		eat(philo);
 		print_info(philo, SLEEPING);
 		philosleep(philo->table, philo->table->tts);

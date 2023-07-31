@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 14:47:23 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 12:52:41 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 15:46:57 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ ssize_t	get_timestamp(t_table *table)
 
 	gettimeofday(&curr_time, NULL);
 	ret = get_milliseconds(&curr_time) - get_milliseconds(&table->tzero);
-	// return (ret);
-	return (ret - table->pst);
+	return (ret);
 }
 
 void	philosleep(t_table *table, ssize_t wait_for)

@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 13:12:25 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 13:47:33 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ bool		init_philos(t_table *table);
 // waiter.c
 bool		check_dead(t_philo *philo);
 void		set_all_philos_dead(t_table *table);
-void		*waiter(void *param);
+void		waiter(t_table *table);
 
 //philo.c
 void		*ft_philo(void *param);

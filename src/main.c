@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:21:27 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 12:42:47 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 16:03:59 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv)
 {
 	t_table		table;
 	int			i;
-	pthread_t	thread;
+	// pthread_t	thread;
 
 	i = 0;
 	init_table(&table);
@@ -24,14 +24,12 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	while (i < table.num_p)
 	{
-		pthread_create(&table.philos[i].thread, NULL,
-			&ft_philo, &table.philos[i]);
+		pthread_create(&table.philos[i].thread, NULL, &ft_philo, &table.philos[i]);
 		i++;
 	}
-	pthread_create(&thread, NULL, &waiter, &table);
+	waiter(&table);
 	i = -1;
-	while (i++ < table.num_p)
+	while (++i < table.num_p)
 		pthread_join(table.philos[i].thread, NULL);
-	pthread_join(thread, NULL);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/12 11:17:07 by flauer            #+#    #+#              #
-#    Updated: 2023/07/31 13:22:14 by flauer           ###   ########.fr        #
+#    Updated: 2023/07/31 13:43:52 by flauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,7 @@ NAME =		philo
 CC =		cc
 CFLAGS =	-g -Wall -Wextra -Werror
 
-INCLUDES =	-Iinclude
-ifeq ($(shell uname), Linux)
-	INCLUDES += -pthread
-endif
+INCLUDES =	-Iinclude -pthread
 
 OBJDIR =	obj
 SRCDIR =	src

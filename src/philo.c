@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 10:33:00 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 13:00:21 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ void	eat(t_philo *philo)
 {
 	grab_forks(philo);
 	print_info(philo, EATING);
-	set_mutex(&philo->last_eat, \
-		get_timestamp(&philo->table->tzero, philo->table->pst));
-	philosleep(philo, philo->table->tte);
+	set_mutex(&philo->last_eat, get_timestamp(philo->table));
+	philosleep(philo->table, philo->table->tte);
 	increment_mutex(&philo->eat_count);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
@@ -60,13 +59,14 @@ void	*ft_philo(void *param)
 	t_philo	*philo;
 
 	philo = (t_philo *)param;
-	while (get_timestamp(&philo->table->tzero, philo->table->pst) < 0)
-		usleep(100);
+	while (get_timestamp(philo->table) < 0)
+		usleep(10);
 	while (true)
 	{
 		print_info(philo, THINKING);
 		eat(philo);
-		philosleep(philo, philo->table->tts);
+		print_info(philo, SLEEPING);
+		philosleep(philo->table, philo->table->tts);
 		if (get_mutex(&philo->table->stop))
 			return (NULL);
 	}

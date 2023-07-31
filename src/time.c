@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 14:47:23 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 10:32:08 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 12:52:41 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,28 @@ static size_t	get_milliseconds(t_timeval *val)
 	return (ret);
 }
 
-ssize_t	get_timestamp(t_timeval *tzero, size_t pst)
+ssize_t	get_timestamp(t_table *table)
 {
 	t_timeval	curr_time;
 	ssize_t		ret;
 
 	gettimeofday(&curr_time, NULL);
-	ret = get_milliseconds(&curr_time) - get_milliseconds(tzero);
-	return (ret - pst);
+	ret = get_milliseconds(&curr_time) - get_milliseconds(&table->tzero);
+	// return (ret);
+	return (ret - table->pst);
 }
 
-void	philosleep(t_philo *philo, ssize_t wait_for)
+void	philosleep(t_table *table, ssize_t wait_for)
 {
+	ssize_t	start;
 	ssize_t	timestamp;
 
-	timestamp = get_timestamp(&philo->table->tzero, philo->table->pst);
-	print_info(philo, SLEEPING);
-	usleep(100);
-	while (get_timestamp(&philo->table->tzero, philo->table->pst) <\
-		timestamp + wait_for)
-		usleep(100);
+	start = get_timestamp(table);
+	timestamp = get_timestamp(table);
+	while (timestamp < start + wait_for)
+	{
+		usleep(BUSY_WAIT_SLEEP);
+		timestamp = get_timestamp(table);
+	}
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:24:13 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 08:25:15 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 12:57:05 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	check_dead(t_philo *philo)
 {
 	ssize_t	curr_time;
 
-	curr_time = get_timestamp(&philo->table->tzero, philo->table->pst);
+	curr_time = get_timestamp(philo->table);
 	if ((curr_time - get_mutex(&philo->last_eat)) > philo->table->ttd)
 	{
 		print_info(philo, DIED);
@@ -61,6 +61,6 @@ void	*waiter(void *param)
 			}
 			i++;
 		}
-		usleep(1000);
+		philosleep(table, 1);
 	}
 }

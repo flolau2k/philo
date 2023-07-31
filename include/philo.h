@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 10:23:15 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 12:55:04 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@
 
 # define ARGS_FAIL "Received wrong number of Arguments"
 # define MS_WAIT_BEFORE_START 100
+# define BUSY_WAIT_SLEEP 150
 
 # define THINKING "is thinking"
-# define DIED "\033[0;31mdied\033[0m"
+//# define DIED "\033[0;31mdied\033[0m"
+# define DIED "died"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
 # define TAKE_FORK "has taken a fork"
@@ -100,7 +102,7 @@ void		set_mutex(t_mutex *m, ssize_t newval);
 ssize_t		increment_mutex(t_mutex *m);
 
 // time.c
-ssize_t		get_timestamp(t_timeval *tzero, size_t pst);
-void		philosleep(t_philo *philo, ssize_t wait_for);
+ssize_t		get_timestamp(t_table *table);
+void		philosleep(t_table *table, ssize_t wait_for);
 
 #endif

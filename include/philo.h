@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 13:47:33 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 16:51:10 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <stdbool.h>
 
 # define ARGS_FAIL "Received wrong number of Arguments"
-# define MS_WAIT_BEFORE_START 100
-# define BUSY_WAIT_SLEEP 150
+// # define MS_WAIT_BEFORE_START 100
+# define BUSY_WAIT_SLEEP 100
 
 # define THINKING "is thinking"
 //# define DIED "\033[0;31mdied\033[0m"
@@ -61,9 +61,9 @@ struct s_table
 	int				tte;
 	int				tts;
 	int				num_eat;
+	// int				pst;
 	t_mutex			stop;
-	ssize_t			pst;
-	t_timeval		tzero;
+	size_t			tzero;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	out;
@@ -103,6 +103,7 @@ ssize_t		increment_mutex(t_mutex *m);
 
 // time.c
 ssize_t		get_timestamp(t_table *table);
+size_t		get_milliseconds();
 void		philosleep(t_table *table, ssize_t wait_for);
 
 #endif

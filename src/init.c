@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 16:46:25 by flauer           ###   ########.fr       */
+/*   Updated: 2023/07/31 16:51:05 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	init_table(t_table *table)
 	table->tts = 0;
 	table->num_eat = 0;
 	init_mutex(&table->stop);
-	gettimeofday(&(table->tzero), NULL);
-	table->pst = MS_WAIT_BEFORE_START;
+	// table->pst = MS_WAIT_BEFORE_START;
+	table->tzero = 0;
 	table->philos = NULL;
 	table->forks = NULL;
 }

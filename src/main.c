@@ -6,31 +6,11 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:21:27 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 21:51:10 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:31:55 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static bool	check_arg(char *arg)
-{
-	int	i;
-
-	if (!arg)
-		return (false);
-	if (arg[0] != '+' && !ft_isdigit(arg[0]))
-		return (false);
-	i = 1;
-	while (arg[i])
-	{
-		if (!ft_isdigit(arg[i]))
-			return (false);
-		if (i > 11)
-			return (false);
-		++i;
-	}
-	return (true);
-}
 
 int	main(int argc, char **argv)
 {
@@ -44,7 +24,8 @@ int	main(int argc, char **argv)
 	table.tzero = get_milliseconds();
 	while (i < table.num_p)
 	{
-		pthread_create(&table.philos[i].thread, NULL, &ft_philo, &table.philos[i]);
+		pthread_create(&table.philos[i].thread, NULL, \
+			&ft_philo, &table.philos[i]);
 		i++;
 	}
 	waiter(&table);

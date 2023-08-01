@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:08:32 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/28 15:47:55 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:32:06 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	destroy_mutex(t_mutex *m)
 	pthread_mutex_destroy(&m->mutex);
 }
 
-ssize_t		get_mutex(t_mutex *m)
+ssize_t	get_mutex(t_mutex *m)
 {
 	ssize_t	ret;
 

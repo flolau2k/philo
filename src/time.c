@@ -6,13 +6,13 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 14:47:23 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 16:51:21 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:31:34 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-size_t	get_milliseconds()
+size_t	get_milliseconds(void)
 {
 	size_t		ret;
 	t_timeval	curr_time;
@@ -29,7 +29,6 @@ ssize_t	get_timestamp(t_table *table)
 
 	ret = get_milliseconds() - table->tzero;
 	return (ret);
-	// return (ret - table->pst);
 }
 
 void	philosleep(t_table *table, ssize_t wait_for)

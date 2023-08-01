@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 21:35:44 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:31:29 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdbool.h>
+# include <limits.h>
 
-# define ARGS_FAIL "Received wrong number of Arguments"
+# define ARGS_COUNT "Received wrong number of Arguments"
+# define ARGS_FAIL "One or more Args is invalid!"
+# define MALLOC_ERR "Malloc failed"
 // # define MS_WAIT_BEFORE_START 100
 # define BUSY_WAIT_SLEEP 100
 
@@ -32,7 +35,7 @@
 # define SLEEPING "is sleeping"
 # define TAKE_FORK "has taken a fork"
 
-typedef struct timeval t_timeval;
+typedef struct timeval	t_timeval;
 
 typedef struct s_mutex
 {
@@ -40,8 +43,8 @@ typedef struct s_mutex
 	pthread_mutex_t	mutex;
 }	t_mutex;
 
-typedef struct s_philo t_philo;
-typedef struct s_table t_table;
+typedef struct s_philo	t_philo;
+typedef struct s_table	t_table;
 
 struct s_philo
 {
@@ -61,7 +64,6 @@ struct s_table
 	int				tte;
 	int				tts;
 	int				num_eat;
-	// int				pst;
 	t_mutex			stop;
 	size_t			tzero;
 	t_philo			*philos;
@@ -77,6 +79,7 @@ void		init_table(t_table *table);
 bool		parse_args(int argc, char **argv, t_table *table);
 void		create_philo(t_philo *philo, int id, t_table *table);
 bool		init_philos(t_table *table);
+bool		check_arg(char *arg);
 
 // waiter.c
 bool		check_dead(t_philo *philo);
@@ -91,8 +94,10 @@ void		grab_forks(t_philo *philo);
 
 // helpers.c
 ssize_t		ft_atoi(const char *str);
-void		ft_err(char *msg);
+void		ft_err(t_table *table, char *msg);
 void		print_info(t_philo *philo, char *msg);
+int			ft_isdigit(int c);
+int			ft_isspace(const char c);
 
 // mutexes.c
 void		init_mutex(t_mutex *m);
@@ -103,7 +108,7 @@ ssize_t		increment_mutex(t_mutex *m);
 
 // time.c
 ssize_t		get_timestamp(t_table *table);
-size_t		get_milliseconds();
+size_t		get_milliseconds(void);
 void		philosleep(t_table *table, ssize_t wait_for);
 
 // cleanup.c

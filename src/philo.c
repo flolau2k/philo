@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 16:53:14 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:32:12 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	single_fork(t_philo *philo)
 	while (true)
 	{
 		if (get_mutex(&philo->table->stop))
-			break;
+			break ;
 		usleep(1000);
 	}
 	return ;

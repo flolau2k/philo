@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/07/31 21:45:50 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:28:52 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,47 @@ void	init_table(t_table *table)
 	table->tts = 0;
 	table->num_eat = 0;
 	init_mutex(&table->stop);
-	// table->pst = MS_WAIT_BEFORE_START;
 	table->tzero = 0;
 	table->philos = NULL;
 	table->forks = NULL;
 }
 
-int	ft_strlen(char *str)
+bool	check_arg(char *arg)
 {
-	int	i;
+	int		i;
+	ssize_t	val;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-bool	read_input(char *val, int *ret, int low, int high)
-{
-	if (ft_strlen(val) == 0)
+	if (!arg)
 		return (false);
-	
+	if (arg[0] != '+' && !ft_isdigit(arg[0]))
+		return (false);
+	i = 1;
+	while (arg[i])
+	{
+		if (!ft_isdigit(arg[i]))
+			return (false);
+		if (i > 11)
+			return (false);
+		++i;
+	}
+	val = ft_atoi(arg);
+	if (val > INT_MAX || val < INT_MIN)
+		return (false);
+	return (true);
 }
 
 bool	parse_args(int argc, char **argv, t_table *table)
 {
+	int	i;
+
+	i = -1;
 	if (argc < 5 || argc > 6)
-		return (ft_err(ARGS_FAIL), false);
+		return (ft_err(table, ARGS_COUNT), false);
+	while (++i < argc)
+	{
+		if (!check_arg(argv[i]))
+			return (ft_err(table, ARGS_FAIL), false);
+	}
 	table->num_p = ft_atoi(argv[1]);
 	table->ttd = ft_atoi(argv[2]);
 	table->tte = ft_atoi(argv[3]);
@@ -75,12 +89,11 @@ bool	init_philos(t_table *table)
 
 	i = 0;
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->num_p);
-	//TODO: make sure to free properly in case of error!
 	if (!table->forks)
-		return (false);
+		return (ft_err(table, MALLOC_ERR), false);
 	table->philos = malloc(sizeof(t_philo) * table->num_p);
 	if (!table->philos)
-		return (false);
+		return (ft_err(table, MALLOC_ERR), false);
 	while (i < table->num_p)
 	{
 		pthread_mutex_init(&(table->forks[i]), NULL);

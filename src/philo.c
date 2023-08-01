@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/01 10:32:12 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:51:31 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ void	grab_forks(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	grab_forks(philo);
+	if (get_mutex(&philo->table->stop))
+	{
+		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_unlock(philo->r_fork);
+		return ;
+	}
 	print_info(philo, EATING);
 	set_mutex(&philo->last_eat, get_timestamp(philo->table));
 	philosleep(philo->table, philo->table->tte);

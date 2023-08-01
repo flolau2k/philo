@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/01 10:28:52 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:39:25 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ bool	parse_args(int argc, char **argv, t_table *table)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (argc < 5 || argc > 6)
 		return (ft_err(table, ARGS_COUNT), false);
 	while (++i < argc)

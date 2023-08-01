@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/01 10:31:29 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:32:58 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@
 # define ARGS_COUNT "Received wrong number of Arguments"
 # define ARGS_FAIL "One or more Args is invalid!"
 # define MALLOC_ERR "Malloc failed"
-// # define MS_WAIT_BEFORE_START 100
 # define BUSY_WAIT_SLEEP 100
 
 # define THINKING "is thinking"
-//# define DIED "\033[0;31mdied\033[0m"
 # define DIED "died"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"

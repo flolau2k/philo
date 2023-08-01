@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/01 10:32:58 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 11:43:13 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ struct s_table
 	size_t			tzero;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	out;
 };
 
 // main.c

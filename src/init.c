@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/01 10:39:25 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 11:43:44 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,5 @@ bool	init_philos(t_table *table)
 		create_philo(&table->philos[i], i, table);
 		i++;
 	}
-	pthread_mutex_init(&table->out, NULL);
 	return (true);
 }

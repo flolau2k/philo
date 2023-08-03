@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:21:27 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 12:24:45 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:20:13 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 	{
 		if (pthread_create(&table.philos[i].thread, NULL, \
 			&ft_philo, &table.philos[i]))
-			return (ft_err(&table, PTHREAD_ERR), EXIT_FAILURE); //TODO detatch all previous and free table
+			return (ft_err(&table, PTHREAD_ERR), EXIT_FAILURE);
 		i++;
 	}
 	waiter(&table);

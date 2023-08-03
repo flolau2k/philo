@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:08:33 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 12:26:50 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:20:20 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ void	ft_err(t_table *table, char *msg)
 	if (msg)
 		printf("%s\n", msg);
 	if (table->philos)
-	{
-
-	}
 		free(table->philos);
 	if (table->forks)
 		free(table->forks);

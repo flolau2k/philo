@@ -3,3 +3,4 @@ obj/
 philo/philo
 LazyPhilosophersTester/
 out*
+*.dSYM

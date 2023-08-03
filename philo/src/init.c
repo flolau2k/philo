@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/01 11:43:44 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 11:44:12 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	parse_args(int argc, char **argv, t_table *table)
 
 void	create_philo(t_philo *philo, int id, t_table *table)
 {
-	philo->id = id;
+	philo->id = id + 1;
 	philo->table = table;
 	init_mutex(&philo->eat_count);
 	init_mutex(&philo->last_eat);

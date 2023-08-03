@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/01 11:26:33 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 11:49:38 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,10 @@ void	grab_forks(t_philo *philo)
 {
 	if (philo->l_fork == philo->r_fork)
 		single_fork(philo);
-	else if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(philo->l_fork);
-		print_info(philo, TAKE_FORK);
-		pthread_mutex_lock(philo->r_fork);
-		print_info(philo, TAKE_FORK);
-	}
-	else
-	{
-		pthread_mutex_lock(philo->r_fork);
-		print_info(philo, TAKE_FORK);
-		pthread_mutex_lock(philo->l_fork);
-		print_info(philo, TAKE_FORK);
-	}
+	pthread_mutex_lock(philo->l_fork);
+	print_info(philo, TAKE_FORK);
+	pthread_mutex_lock(philo->r_fork);
+	print_info(philo, TAKE_FORK);
 }
 
 void	eat(t_philo *philo)

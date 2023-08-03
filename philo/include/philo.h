@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 12:24:30 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 11:43:13 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # define ARGS_COUNT "Received wrong number of Arguments"
 # define ARGS_FAIL "One or more Args is invalid!"
 # define MALLOC_ERR "Malloc failed"
-# define PTHREAD_ERR "Pthread Error"
 # define BUSY_WAIT_SLEEP 100
 
 # define THINKING "is thinking"

@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:21:27 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 12:24:45 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:31:55 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ int	main(int argc, char **argv)
 	table.tzero = get_milliseconds();
 	while (i < table.num_p)
 	{
-		if (pthread_create(&table.philos[i].thread, NULL, \
-			&ft_philo, &table.philos[i]))
-			return (ft_err(&table, PTHREAD_ERR), EXIT_FAILURE); //TODO detatch all previous and free table
+		pthread_create(&table.philos[i].thread, NULL, \
+			&ft_philo, &table.philos[i]);
 		i++;
 	}
 	waiter(&table);

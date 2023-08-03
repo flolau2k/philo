@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:08:33 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 12:26:50 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:10:01 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,12 @@ void	print_info(t_philo *philo, char *msg)
 	pthread_mutex_unlock(&philo->table->stop.mutex);
 }
 
-void	ft_err(t_table *table, char *msg)
+void	ft_err(t_table *table, char *msg, int *num)
 {
 	printf("Error\n");
 	if (msg)
 		printf("%s\n", msg);
 	if (table->philos)
-	{
-
-	}
 		free(table->philos);
 	if (table->forks)
 		free(table->forks);

@@ -6,22 +6,26 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:31:41 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/01 11:43:52 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:11:47 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	free_table(t_table *table)
+void	free_table(t_table *table, int *num)
 {
 	int	i;
 
 	i = 0;
-	while (i < table->num_p)
+	while (num && i < *num)
 	{
-		pthread_mutex_destroy(&table->forks[i]);
-		destroy_mutex(&table->philos[i].eat_count);
-		destroy_mutex(&table->philos[i].last_eat);
+		if (table->forks)
+			pthread_mutex_destroy(&table->forks[i]);
+		if (table->philos)
+		{
+			destroy_mutex(&table->philos[i].eat_count);
+			destroy_mutex(&table->philos[i].last_eat);
+		}
 		i++;
 	}
 	destroy_mutex(&table->stop);

@@ -6,21 +6,25 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:08:32 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/01 10:32:06 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:15:11 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_mutex(t_mutex *m)
+bool	init_mutex(t_mutex *m)
 {
 	m->val = 0;
-	pthread_mutex_init(&m->mutex, NULL);
+	if (pthread_mutex_init(&m->mutex, NULL))
+		return (false);
+	return (true);
 }
 
-void	destroy_mutex(t_mutex *m)
+bool	destroy_mutex(t_mutex *m)
 {
-	pthread_mutex_destroy(&m->mutex);
+	if (pthread_mutex_destroy(&m->mutex))
+		return (false);
+	return (true);
 }
 
 ssize_t	get_mutex(t_mutex *m)

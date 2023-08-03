@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 12:24:30 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:15:21 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ struct s_table
 int			main(int argc, char **argv);
 
 // init.c
-void		init_table(t_table *table);
+bool		init_table(t_table *table);
 bool		parse_args(int argc, char **argv, t_table *table);
 void		create_philo(t_philo *philo, int id, t_table *table);
 bool		init_philos(t_table *table);
@@ -98,8 +98,8 @@ int			ft_isdigit(int c);
 int			ft_isspace(const char c);
 
 // mutexes.c
-void		init_mutex(t_mutex *m);
-void		destroy_mutex(t_mutex *m);
+bool		init_mutex(t_mutex *m);
+bool		destroy_mutex(t_mutex *m);
 ssize_t		get_mutex(t_mutex *m);
 void		set_mutex(t_mutex *m, ssize_t newval);
 ssize_t		increment_mutex(t_mutex *m);
@@ -110,6 +110,6 @@ size_t		get_milliseconds(void);
 void		philosleep(t_table *table, ssize_t wait_for);
 
 // cleanup.c
-void		free_table(t_table *table);
+void		free_table(t_table *table, int *num);
 
 #endif

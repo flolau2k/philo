@@ -6,23 +6,25 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 11:44:12 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:13:10 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_table(t_table *table)
+bool	init_table(t_table *table)
 {
 	table->num_p = 0;
 	table->ttd = 0;
 	table->tte = 0;
 	table->tts = 0;
 	table->num_eat = 0;
-	init_mutex(&table->stop);
+	if (init_mutex(&table->stop))
+		return (false);
 	table->tzero = 0;
 	table->philos = NULL;
 	table->forks = NULL;
+	return (true);
 }
 
 bool	check_arg(char *arg)

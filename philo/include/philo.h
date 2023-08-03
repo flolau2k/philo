@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:35:09 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 12:24:30 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:33:19 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void		waiter(t_table *table);
 void		*ft_philo(void *param);
 void		eat(t_philo *philo);
 void		single_fork(t_philo *philo);
-void		grab_forks(t_philo *philo);
+bool		grab_forks(t_philo *philo);
 
 // helpers.c
 ssize_t		ft_atoi(const char *str);

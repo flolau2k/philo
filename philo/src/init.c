@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:20:00 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 11:44:12 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:26:46 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	check_arg(char *arg)
 		++i;
 	}
 	val = ft_atoi(arg);
-	if (val > INT_MAX || val < INT_MIN)
+	if (val > INT_MAX || val <= 0)
 		return (false);
 	return (true);
 }

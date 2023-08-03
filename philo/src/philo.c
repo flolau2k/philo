@@ -6,7 +6,7 @@
 /*   By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:34:53 by flauer            #+#    #+#             */
-/*   Updated: 2023/08/03 12:03:47 by flauer           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:37:27 by flauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@ void	single_fork(t_philo *philo)
 	return ;
 }
 
-void	grab_forks(t_philo *philo)
+bool	grab_forks(t_philo *philo)
 {
 	if (philo->l_fork == philo->r_fork)
+	{
 		single_fork(philo);
+		return (false);
+	}
 	else if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->l_fork);
@@ -41,17 +44,13 @@ void	grab_forks(t_philo *philo)
 		pthread_mutex_lock(philo->l_fork);
 		print_info(philo, TAKE_FORK);
 	}
+	return (true);
 }
 
 void	eat(t_philo *philo)
 {
-	grab_forks(philo);
-	if (get_mutex(&philo->table->stop))
-	{
-		pthread_mutex_unlock(philo->l_fork);
-		pthread_mutex_unlock(philo->r_fork);
+	if (!grab_forks(philo))
 		return ;
-	}
 	pthread_mutex_lock(&philo->last_eat.mutex);
 	print_info(philo, EATING);
 	philo->last_eat.val = get_timestamp(philo->table);

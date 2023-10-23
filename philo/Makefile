@@ -6,7 +6,7 @@
 #    By: flauer <flauer@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/12 11:17:07 by flauer            #+#    #+#              #
-#    Updated: 2023/07/31 21:38:32 by flauer           ###   ########.fr        #
+#    Updated: 2023/08/11 14:13:50 by flauer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ HEADERS =	$(addprefix $(INCDIR)/, $(HEADER_F))
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(LIBMLX) $(OBJ)
+$(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
 	@echo "built $(NAME)"
 

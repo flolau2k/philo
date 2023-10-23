@@ -4,3 +4,4 @@ philo/philo
 LazyPhilosophersTester/
 out*
 *.dSYM
+.DS_Store
